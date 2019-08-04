@@ -46,7 +46,7 @@ class TelegramBot(FlaskHandlerMixin, Resource):
 
     def process_message(self, message):
         arr = message.split()
-        if arr[0] == 'pay':
+        if arr[0] == '/pay':
             target_address = arr[1]
             amount = arr[2]
             response = self.raiden_node_api.payments(
@@ -57,6 +57,13 @@ class TelegramBot(FlaskHandlerMixin, Resource):
                 return "Payment Successful"
             else:
                 return "Payment Unsuccessfull please check your message"
+        elif arr[0] == '/balance':
+            partner_address = arr[1]
+            response = self.raiden_node_api.getBalance(
+                self.token_address,
+                partner_address)
+            if response.status_code == 200:
+                return response.json()['balance']
         else:
             return "What are you saying"
 

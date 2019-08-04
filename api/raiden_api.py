@@ -15,4 +15,5 @@ class RaidenApi:
 
     def getBalance(self, token_address, partner_address):
         url = f"{self.raiden_api}/channels/{token_address}/{partner_address}"
+        print(url)
         return requests.get(url)
